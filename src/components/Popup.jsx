@@ -67,7 +67,7 @@ function Popup({ openModal, setOpenModal }) {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.post("http://localhost:5000/api/referrals", {
+        const response = await axios.post("https://accredian-backend-task-b8w2.onrender.com/api/referrals", {
           name,
           email,
           phone,
