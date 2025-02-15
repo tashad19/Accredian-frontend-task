@@ -129,7 +129,7 @@ function Popup({ openModal, setOpenModal }) {
 
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col justify-around items-center gap-4 h-70 mt-7"
+            className="flex flex-col justify-around items-center gap-4 min-h-70 mt-7"
           >
             <input
               type="text"
