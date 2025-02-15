@@ -110,12 +110,12 @@ function Popup({ openModal, setOpenModal }) {
 
   return (
     <div
-      className="fixed flex justify-center items-center z-20 w-full h-full"
+      className="fixed flex justify-center items-center z-20 w-full h-full top-0 left-0"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
       onClick={closePopup}
     >
       <div
-        className="absolute z-20 flex bg-stone-200 rounded-2xl w-[60%]"
+        className="absolute z-20 flex bg-stone-200 rounded-2xl w-[60%] max-w-[800px] p-5"
         onClick={(e) => e.stopPropagation()}
       >
         <img
