@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import ReferYourFriend from "../assets/refer_your_friend.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+import axios from "axios";
 
 function Popup({ openModal, setOpenModal }) {
   const [name, setName] = useState("");
@@ -14,6 +15,8 @@ function Popup({ openModal, setOpenModal }) {
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [courseError, setCourseError] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const closePopup = (e) => {
     e.preventDefault();
@@ -66,14 +69,18 @@ function Popup({ openModal, setOpenModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setIsLoading(true); // Start loading
       try {
-        const response = await axios.post("https://accredian-backend-task-b8w2.onrender.com/api/referrals", {
-          name,
-          email,
-          phone,
-          course,
-        });
-  
+        const response = await axios.post(
+          "https://accredian-backend-task-b8w2.onrender.com/api/referrals",
+          {
+            name,
+            email,
+            phone,
+            course,
+          }
+        );
+
         if (response.status === 201) {
           alert("Referral submitted successfully!");
           // Clear the form
@@ -86,10 +93,11 @@ function Popup({ openModal, setOpenModal }) {
       } catch (error) {
         console.error("Error submitting referral:", error);
         alert("Failed to submit referral. Please try again later.");
+      } finally {
+        setIsLoading(false); // End loading
       }
     }
   };
-  
 
   return (
     <div
@@ -130,9 +138,7 @@ function Popup({ openModal, setOpenModal }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            {nameError && (
-              <p className="text-red-600 text-sm">{nameError}</p>
-            )}
+            {nameError && <p className="text-red-600 text-sm">{nameError}</p>}
 
             <input
               type="email"
@@ -141,9 +147,7 @@ function Popup({ openModal, setOpenModal }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {emailError && (
-              <p className="text-red-600 text-sm">{emailError}</p>
-            )}
+            {emailError && <p className="text-red-600 text-sm">{emailError}</p>}
 
             <input
               type="tel"
@@ -152,9 +156,7 @@ function Popup({ openModal, setOpenModal }) {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-            {phoneError && (
-              <p className="text-red-600 text-sm">{phoneError}</p>
-            )}
+            {phoneError && <p className="text-red-600 text-sm">{phoneError}</p>}
 
             <div className="flex justify-center relative w-[70%]">
               <select
@@ -182,8 +184,15 @@ function Popup({ openModal, setOpenModal }) {
             <button
               type="submit"
               className="z-10 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 px-8 py-2 text-[15px] rounded-lg"
+              disabled={isLoading} // Disable button while loading
             >
-              Submit
+              {isLoading ? (
+                <span>
+                  Please wait... <FontAwesomeIcon icon={faClock} />
+                </span>
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
         </div>
