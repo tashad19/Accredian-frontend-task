@@ -19,8 +19,8 @@ function App() {
 
       <div>
         <div className="flex justify-center items-center my-10">
-          <div className="relative w-[80%] drop-shadow-[0px_0px_35px_rgba(0,0,0,0.2)] z-1">
-            <div className="relative px-10 bg-stone-100 ml-10 h-full flex justify-center items-center max-w-full sm:absolute sm:max-w-[40%] sm:bg-transparent">
+          <div className="flex flex-wrap relative w-full drop-shadow-[0px_0px_35px_rgba(0,0,0,0.2)] z-1 sm:w-[80%]">
+            <div className="relative grow shrink px-10 bg-stone-100 h-full flex justify-center items-center max-w-full sm:absolute sm:max-w-[40%] sm:bg-transparent">
               
               <div className="flex flex-col justify-evenly h-96">
 
@@ -44,7 +44,7 @@ function App() {
               </div>
             </div>
 
-            <video autoPlay loop muted className="rounded-2xl hidden sm:block">
+            <video autoPlay loop muted className="rounded-2xl">
               <source src={bgVideo} type="video/mp4" />
               Video tag not supported.
             </video>
