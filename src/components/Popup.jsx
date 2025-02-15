@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReferYourFriend from "../assets/refer_your_friend.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faClock } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 
 function Popup({ openModal, setOpenModal }) {
@@ -14,6 +14,8 @@ function Popup({ openModal, setOpenModal }) {
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [courseError, setCourseError] = useState("");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Lock scrolling when modal is open
   useEffect(() => {
@@ -79,6 +81,7 @@ function Popup({ openModal, setOpenModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setIsSubmitting(true);
       try {
         const response = await axios.post("https://accredian-backend-task-b8w2.onrender.com/api/referrals", {
           name,
@@ -99,10 +102,11 @@ function Popup({ openModal, setOpenModal }) {
       } catch (error) {
         console.error("Error submitting referral:", error);
         alert("Failed to submit referral. Please try again later.");
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
-  
 
   return (
     <div
@@ -194,9 +198,16 @@ function Popup({ openModal, setOpenModal }) {
 
             <button
               type="submit"
-              className="z-10 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 px-8 py-2 text-[15px] rounded-lg"
+              className="z-10 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 px-8 py-2 text-[15px] rounded-lg flex items-center"
+              disabled={isSubmitting}
             >
-              Submit
+              {isSubmitting ? (
+                <span>
+                  Please wait... <FontAwesomeIcon icon={faClock} className="ml-2" />
+                </span>
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
         </div>
